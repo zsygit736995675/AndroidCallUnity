@@ -3,10 +3,13 @@ package com.zsy.callandroid;
 import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Looper;
 import android.provider.Settings;
+import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.lang.reflect.InvocationTargetException;
@@ -148,4 +151,23 @@ public class Unity2Android {
         return false;
     }
 
+    /**
+     * 获取国家码
+     */
+    public  String getCountryZipCode( ) {
+        String CountryID = "";
+        String CountryZipCode = "";
+        TelephonyManager manager = (TelephonyManager)  getActivity().getSystemService(Context.TELEPHONY_SERVICE);
+        CountryID = manager.getSimCountryIso().toUpperCase();
+        Log.d("ss", "CountryID--->>>" + CountryID);
+        String[] rl =  getActivity().getResources().getStringArray(R.array.CountryCodes);
+        for (int i = 0; i < rl.length; i++) {
+            String[] g = rl[i].split(",");
+            if (g[1].trim().equals(CountryID.trim())) {
+                CountryZipCode = g[1];
+                break;
+            }
+        }
+        return CountryZipCode;
+    }
 }
