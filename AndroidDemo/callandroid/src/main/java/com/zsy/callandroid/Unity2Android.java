@@ -5,6 +5,8 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Looper;
 import android.provider.Settings;
@@ -14,6 +16,7 @@ import android.widget.Toast;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -170,4 +173,26 @@ public class Unity2Android {
         }
         return CountryZipCode;
     }
+
+    /**
+     * 判断手机是否安装某个应用
+     * @param appPackageName  应用包名
+     * @return   true：安装，false：未安装
+     */
+    public  boolean isApplicationAvilible( String appPackageName) {
+        PackageManager packageManager = getActivity().getPackageManager();// 获取packagemanager
+        List<PackageInfo> pinfo = packageManager.getInstalledPackages(0);// 获取所有已安装程序的包信息
+        if (pinfo != null) {
+            for (int i = 0; i < pinfo.size(); i++) {
+                String pn = pinfo.get(i).packageName;
+                if (appPackageName.equals(pn)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+
+
 }
