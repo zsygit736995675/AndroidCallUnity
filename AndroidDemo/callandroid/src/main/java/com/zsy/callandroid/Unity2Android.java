@@ -1,6 +1,7 @@
 package com.zsy.callandroid;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -8,6 +9,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+
 import android.os.Build;
 import android.os.Looper;
 import android.provider.Settings;
@@ -15,11 +17,16 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.core.content.FileProvider;
+
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.UUID;
+
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by zsy on 2018-1-18.
@@ -196,6 +203,17 @@ public class Unity2Android {
         return false;
     }
 
+
+
+    /**
+     * 接收Unity的发送消息
+     * @param key
+     * @param params
+     */
+    public  void UnitySendReceive(String key, String params)
+    {
+        Log.d(TAG, "UnitySendReceive  key: "+ key  +" params:"+params);
+    }
 
 
 
