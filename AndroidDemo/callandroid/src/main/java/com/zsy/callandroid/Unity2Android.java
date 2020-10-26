@@ -8,19 +8,21 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Looper;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.UUID;
 
 /**
- * Created by Jing on 2018-1-18.
+ * Created by zsy on 2018-1-18.
  */
 public class Unity2Android {
 
@@ -39,15 +41,16 @@ public class Unity2Android {
                 Activity activity = (Activity) classtype.getDeclaredField("currentActivity").get(classtype);
                 _unityActivity = activity;
             } catch (ClassNotFoundException e) {
-
+                Log.d("Unity2Android", "getActivity: "+e);
             } catch (IllegalAccessException e) {
-
+                Log.d("Unity2Android", "getActivity: "+e);
             } catch (NoSuchFieldException e) {
-
+                Log.d("Unity2Android", "getActivity: "+e);
             }
         }
         return _unityActivity;
     }
+
 
     /**
      * 调用Unity的方法
@@ -63,13 +66,13 @@ public class Unity2Android {
             method.invoke(classtype,gameObjectName,functionName,args);
             return true;
         } catch (ClassNotFoundException e) {
-
+            Log.d("Unity2Android", "callUnity: "+e);
         } catch (NoSuchMethodException e) {
-
+            Log.d("Unity2Android", "callUnity: "+e);
         } catch (IllegalAccessException e) {
-
+            Log.d("Unity2Android", "callUnity: "+e);
         } catch (InvocationTargetException e) {
-
+            Log.d("Unity2Android", "callUnity: "+e);
         }
         return false;
     }
@@ -82,7 +85,7 @@ public class Unity2Android {
     public boolean showToast(String content){
         Toast.makeText(getActivity(),content,Toast.LENGTH_SHORT).show();
         //这里是主动调用Unity中的方法，该方法之后unity部分会讲到
-        callUnity("Main Camera","FromAndroid", "hello unity i'm android");
+        callUnity("AndroidSend","AndroidCall", "hello unity i'm android");
         return true;
     }
 
@@ -129,8 +132,8 @@ public class Unity2Android {
 
     /**
      * 打开商店
-     * @param appPkg
-     * @param marketPkg
+     * @param appPkg  要打开的应用包名
+     * @param marketPkg 商店的包名
      * @return
      */
     public  boolean toMarket(String appPkg, String marketPkg)
@@ -192,6 +195,7 @@ public class Unity2Android {
         }
         return false;
     }
+
 
 
 
